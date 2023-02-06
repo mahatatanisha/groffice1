@@ -7,18 +7,23 @@
     padding: 10px;
     transition: 0.4s;
     opacity: 1;
+    color: black;
 }
 
 .sidebarchat>.sidebarchat__header {
     display: flex;
     flex-direction: row;
+ 
 
 }
 
 .sidebarchat:hover {
-    background: rgb(255, 64, 64);
-    background: linear-gradient(198deg, rgba(255, 64, 64, 1) 13%, rgba(250, 78, 78, 1) 51%, rgba(255, 197, 197, 1) 100%);
+    background: #562B08;
+    background: linear-gradient(198deg, #562B08 13%, #6a401d 51%, #926a49 100%);
+   
     opacity: 2;
     color: rgb(255, 255, 255);
 
 }
+
+

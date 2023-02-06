@@ -5,10 +5,9 @@
 .chat {
     flex: 0.55;
     display: flex;
-    /* background: rgb(234,240,183);
-background: linear-gradient(180deg, rgba(234,240,183,1) 10%, rgba(251,251,251,0.9643207624846813) 100%); */
-    background: rgb(255, 255, 255);
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7150210425967262) 10%, rgba(251, 251, 251, 0.6561975131849616) 100%);
+    /* background: rgb(255, 255, 255);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7150210425967262) 10%, rgba(251, 251, 251, 0.6561975131849616) 100%); */
+    background-color: #647E68;
     flex-direction: column;
 
 }
@@ -40,13 +39,15 @@ background: linear-gradient(180deg, rgba(234,240,183,1) 10%, rgba(251,251,251,0.
     border-bottom: 1px solid rgb(244, 244, 244);
     /*border-top: 1px solid lightgray; */
     border-radius: 5px 5px 0px 0px;
-    background: rgb(252, 252, 252);
-    background: linear-gradient(180deg, rgba(252, 252, 252, 1) 13%, rgba(240, 183, 183, 1) 100%);
+    /* background: rgb(252, 252, 252);
+    background: linear-gradient(180deg, rgba(252, 252, 252, 1) 13%, rgba(240, 183, 183, 1) 100%); */
+    background-color: #562B08;
 }
 
 .chat_headerInfo {
     flex: 1;
     padding-left: 20px;
+    color: white;
 }
 
 .chat_headerInfo>h3 {
@@ -73,8 +74,10 @@ background: linear-gradient(180deg, rgba(234,240,183,1) 10%, rgba(251,251,251,0.
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
-    background: rgb(240, 183, 183);
-    background: linear-gradient(180deg, rgba(240, 183, 183, 1) 13%, rgba(231, 195, 195, 1) 100%);
+    /* background: rgb(240, 183, 183);
+    background: linear-gradient(180deg, rgba(240, 183, 183, 1) 13%, rgba(231, 195, 195, 1) 100%); */
+    background-color: #562B08;
+    color: white;
 }
 
 .chat__footer {
@@ -112,28 +115,41 @@ background: linear-gradient(180deg, rgba(234,240,183,1) 10%, rgba(251,251,251,0.
 .chat__main {
     flex: 1;
     padding: 30px;
-    background-color: rgb(249, 249, 249);
+    background-color: #D8D8D8;
     /* background: rgb(234, 248, 196);
     background: linear-gradient(180deg, rgba(234, 248, 196, 1) 13%, rgba(234, 248, 196, 1) 51%, rgba(255, 197, 197, 1) 100%); */
-
+    overflow-y: scroll;
     position: absolute;
-    height: 80.90%;
+    height: 70.90%;
     width: 100%;
-    bottom: 0px;
+    bottom: 59px;
 
 }
 
 .chat_message {
     position: relative;
-    font-size: 16px;
+    font-size: 13px;
     border-radius: 10px;
     padding: 10px;
     border: 1px solid lightgray;
-    /* background: rgb(255, 64, 64);
-    background: linear-gradient(198deg, rgba(255, 64, 64, 1) 13%, rgba(250, 78, 78, 1) 51%, rgba(255, 197, 197, 1) 100%); */
-    background-image: linear-gradient(to right, #f66565 0%, #fd8585 51%, #f66565 100%);
+    /* background-image: linear-gradient(to right, #f66565 0%, #fd8585 51%, #f66565 100%); */
+    background-color: #49634d;
+    color: white;
     width: fit-content;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+}
+
+.chat_receiver{
+    position: relative;
+    font-size: 13px;
+    border-radius: 10px;
+    padding: 10px;
+    border: 1px solid lightgray;
+    width: fit-content;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+
+    margin-left: auto;
+    background-color: #f7ded4;
 }
 
 .chat_name {
@@ -145,5 +161,5 @@ background: linear-gradient(180deg, rgba(234,240,183,1) 10%, rgba(251,251,251,0.
 
 .chat_timestemp {
     margin-left: 10px;
-    font-size: xx-small;
+    font-size: 8px;
 }

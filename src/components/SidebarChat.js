@@ -5,10 +5,15 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import { createAvatar } from '@dicebear/avatars';
 import * as style from '@dicebear/avatars-male-sprites';
 import { Link, useNavigate } from "react-router-dom";
+import { useUserAuth } from "../context/UserAuthContext";
+
 import {db} from "./firebase";
 import {
     collection,
     getDocs,
+    query,
+    orderBy,
+    limit,
     getDoc,
     addDoc,
     updateDoc,
@@ -16,32 +21,56 @@ import {
     doc,
   } from "firebase/firestore";
 
-function SidebarChat() {
-    const [seed, setSeed] = useState("");
-    useEffect(() => {
-        setSeed(Math.floor(Math.random() * 5000));
-    }, []);
-    let svg = createAvatar(style, {
-        seed: 'custom-seed',
-        // ... and other options
-    });
+function SidebarChat({id,name,participants}) {
+    const [grpMsg, setGrpMsg] = useState("");
+    const { userid, setMainRoomId, setMainRoomParticipants, setMainRoomName } = useUserAuth();
 
+    const MessageollectionRef = collection(db,`/MainRooms/${id}/Messages`);
+    const q = query(MessageollectionRef, orderBy('timestamp', 'desc'),limit(3));
+
+    useEffect(() => {
+        showMessage();
+        participants.map((item)=>{console.log("useeffect item=",item)})
+    }, [participants]);
+    
+    const getAllMsg = () => {
+        return getDocs(q);
+      }
+    const showMessage = async()=>{
+        const msgdata = await getAllMsg();
+        setGrpMsg(msgdata.docs.map((doc) => ({
+          name: doc.data().name,
+          message: doc.data().msg,
+        })))
+      }
+       
+      const onSidebarChatCLick = ()=>{
+        setMainRoomId(id);
+        setMainRoomName(name);
+        setMainRoomParticipants(participants);
+        participants.map(element => {
+          console.log("participants of siderchat: ",element);
+        });
+       
+      }
+    
 
     return (
-        // <Link to={`/Users/MainRooms/${id}`} key={id}>
-        <div className="sidebarchat">
+         
+        <div className="sidebarchat" onClick={onSidebarChatCLick}>
 
             <div className="sidebarchat__header">
-                <AccountCircleIcon src={`https://avatars.dicebear.com/api/human.${svg}`} />
-                <h6>TYCS</h6>
+                <AccountCircleIcon />
+                <h6>{name}</h6>
+               
             </div>
-
+          
             <p>
-            ciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae 
+            
             </p>
 
         </div>
-        // </Link>
+        
     )
     // : (
     //     <div  className="sidebarChat">

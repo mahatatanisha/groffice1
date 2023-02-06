@@ -13,6 +13,7 @@
 .login > h1{
     font-family: 'Ms Madi', cursive;
     padding-left: 150px;
+    color: aliceblue;
 }
 
 .Signup_form {
@@ -26,7 +27,7 @@
 
     padding: 13px;
     border-radius: 10px;
-    box-shadow: 0px 3px 29px -4px rgba(94, 84, 94, 1);
+    box-shadow: 0px 3px 29px -4px rgb(15, 15, 15);
 
 
 }
@@ -36,9 +37,10 @@ h3 {
 }
 
 button{
-    background-image: linear-gradient(to right, #f66565 0%, #fd8585 51%, #f66565 100%);
+    background-image: linear-gradient(to right, #647E68 0%, #586f5c 51%, #4c614f 100%);
+    
     border: none;
-    box-shadow: 0px 3px 29px -4px rgba(94, 84, 94, 1);
+    box-shadow: 0px 3px 29px -4px rgb(9, 9, 9);
 }
 
 button:hover {
@@ -56,13 +58,20 @@ button:hover {
     align-self: center;
     padding: 5px;
     margin-left: 40px;
-    background-color: #f66565;
-    box-shadow: 0px 3px 29px -4px rgba(94, 84, 94, 1);
+    background-color: #182747;
+    box-shadow: 0px 3px 29px -4px rgb(1, 1, 1);
     border-radius: 20px;
 }
 
 .google > h6{
     font-family: 'Roboto', sans-serif;
     font-size: smaller;
+    color: white;
+}
+
+.forgot-password{
+    color: white;
+}
+.p-4{
     color: white;
 }

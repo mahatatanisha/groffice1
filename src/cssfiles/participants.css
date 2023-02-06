@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+.Background {
+    width: 100%;
+    height: 100%;
+    padding-right: 500px;
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+
+}
+
+.ModalWrapper {
+    width: 300px;
+    height: 400px;
+    box-shadow: 0 5px 16px rgba(0, 0, 0, 0.2);
+    background: rgb(24, 39, 71);
+    background: linear-gradient(180deg, rgba(24, 39, 71, 0.9110994739692753) 0%, rgba(24, 39, 71, 0.9727241238292192) 55%);
+    color: #000;
+    display: flex;
+    flex-direction: column;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    z-index: 100;
+    border-radius: 10px;
+    overflow-y: scroll;
+
+}
+
+.uploadbutton{
+    border: #000;
+}
+
+.ModalWrapper::-webkit-scrollbar {
+    width: 8px;
+
+}
+
+.ModalWrapper::-webkit-scrollbar-track {
+    background-color: none;
+    border-radius: 100px;
+    margin-left: 3px;
+
+}
+
+.checklist {
+    flex-direction: column;
+    display: flex;
+    color: #fff;
+    padding: 20px;
+    margin-left: 3px;
+
+}
+
+.Background>.ModalWrapper>.input {
+    padding: 10px;
+}
+
+.Background>.ModalWrapper>.input>.form-input {
+
+    width: 100%;
+}
+
+
+
+.Background>.ModalWrapper> .done >h4 {
+    font-family: 'Roboto', sans-serif;
+    padding: 5px;
+    color: #fff;
+
+}
+
+.account-name{
+    margin-left: 8px;
+}
+
+.check-item {
+    display: flex;
+    flex-direction: row;
+    padding-top: 10px;
+    padding-bottom: 20px;
+    font-size: 18px;
+    font-family: 'Roboto', sans-serif;
+    border-bottom: #fff solid 1px;
+    margin-bottom: 10px;
+}
+
+.CloseModelButton{
+    background-color: none;
+    cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 32px;
+  height: 32px;
+  padding-left: 30px;
+  
+
+}
+
+.done{
+    flex-direction: row;
+    display: flex;
+}
+
+.Button{
+    background-color: #647E68;
+    color: white;
+    font-size: 10px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 10px 10px;
+    cursor: pointer;
+}

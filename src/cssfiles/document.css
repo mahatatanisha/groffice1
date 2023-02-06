@@ -1,0 +1,92 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+.documents{
+    display: flex;
+    background-color: #647E68;
+  
+    height: 90vh;
+    width: 90vw;
+    margin-top: -20px;
+    box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.2);
+    /* border-radius: 10px; */
+}
+
+.upload-files{
+    display: flex;
+    flex: 0.85;
+    flex-direction: column;
+    
+   
+
+}
+
+.upload-files > .upload-buttons> ul> li > button{
+    flex: 1 1 auto;
+    margin-left: 55px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    padding: 10px;
+    text-align: center;
+    width: 150px;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    /* text-shadow: 0px 0px 10px rgba(0,0,0,0.2);*/
+    box-shadow: 0 0 20px rgb(79, 78, 78);
+    border-radius: 5px;
+    background-image: linear-gradient(to right, #562B08 0%, #643814 51%, #683c19 100%);
+}
+
+ 
+
+.upload-files > .upload-buttons> ul >li{
+    display: inline;
+  }
+  .upload-files > .upload-buttons> h2{
+    font-family: 'Roboto', sans-serif;
+    margin-left: 30px;
+    color: #fff;
+  }
+  .upload-buttons{
+    padding-top: 70px;
+    margin-right: auto;
+  
+
+  }
+
+  hr{
+    width: 1100px;
+    margin-top: 0 ;
+    position: absolute;
+    color: #fff;
+  }
+
+  /* Table Styling */
+
+  table {
+    table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    
+  }
+  
+  thead th:nth-child(1) {
+    width: 30%;
+  }
+  
+  thead th:nth-child(2) {
+    width: 20%;
+  }
+  
+  thead th:nth-child(3) {
+    width: 15%;
+  }
+  
+  thead th:nth-child(4) {
+    width: 35%;
+  }
+  
+  th,
+  td {
+    padding: 20px;
+  }

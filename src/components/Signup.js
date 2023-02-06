@@ -1,16 +1,11 @@
 import React, { useState }  from 'react'
 import { Link, useNavigate } from "react-router-dom";
-import { Form, Alert } from "react-bootstrap";
+import {  Alert } from "react-bootstrap";
 import { useUserAuth } from "../context/UserAuthContext";
 import {db} from "./firebase";
 import {
     collection,
-    getDocs,
-    getDoc,
     addDoc,
-    updateDoc,
-    deleteDoc,
-    doc,
   } from "firebase/firestore";
 
 function Signup() {
@@ -18,11 +13,13 @@ function Signup() {
     const [error, setError] = useState("");
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
+    
     const [flag, setFlag] = useState(null); 
     const { signUp } = useUserAuth();
     let navigate = useNavigate();
 
     const userCollection = collection(db, "Users");
+   
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
@@ -36,7 +33,9 @@ function Signup() {
             password,
           };
           addDoc(userCollection, user);
-          console.log(user);
+          
+      
+      
         
         } catch (err) {
           setError(err.message);

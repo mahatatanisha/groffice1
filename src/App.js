@@ -10,7 +10,8 @@ import {
 import { UserAuthContextProvider } from "./context/UserAuthContext";
 import MainChat from './components/MainChat';
 import Signup from './components/Signup';
-
+import Home from './components/Home';
+import Documents from './components/Documents';
 
 function App() {
 
@@ -21,14 +22,18 @@ function App() {
         <UserAuthContextProvider>
           <Routes>
             <Route
-              path="/main-chat"
+              path="/home"
               element={
-                <MainChat />
+                <Home />
 
               }
             />
             <Route path="/" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/chat" element={<MainChat />} />
+            <Route path="/home" element={<Home />} />
+           
+            <Route path="/documents" element={<Documents/>}/>
           </Routes>
         </UserAuthContextProvider>
 

@@ -6,7 +6,7 @@
 .profile {
     flex: 0.15;
     display: flex;
-    background-color: rgb(247, 244, 244);
+    background-color: #562B08;
     flex-direction: column;
     position: relative;
     /* background: rgb(255, 255, 255);
@@ -28,6 +28,7 @@
 .profile_header > h6{
     font-family: 'Roboto', sans-serif;
     padding-top: 10px;
+    color: #D8D8D8;
 }
 
 .tabs{
@@ -37,17 +38,24 @@
     text-decoration: none;
     
 }
+.active{
+    
+    color: #5f7963;
+   
+    
+
+}
 
 a {
     font-family: 'Roboto', sans-serif;
     
-    color: #656565;
+    color: #D8D8D8;
     text-decoration: none;
     
 }
 
 a:hover{
-    color: rgb(254, 72, 72);
+    color: #5f7963;
 }
 
 

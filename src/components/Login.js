@@ -1,24 +1,45 @@
-import React, { useState } from 'react'
+import React, { useState, createContext, useContext } from 'react'
 import '../cssfiles/login.css'
 import GoogleIcon from '@mui/icons-material/Google';
 import { Link, useNavigate } from "react-router-dom";
 import { useUserAuth } from "../context/UserAuthContext";
-import { Form, Alert } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
+import { db } from "./firebase";
+import {
 
+  collection,
+  query,
+  where,
+  getDocs,
+  getDoc,
+} from "firebase/firestore";
+
+export const userDetails = createContext();
 function Login() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-  const { logIn, googleSignIn } = useUserAuth();
+  const { logIn, googleSignIn, setUser, setUserid } = useUserAuth();
   const navigate = useNavigate();
+
+  const usersCollectionRef = collection(db, "Users");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
     try {
       await logIn(email, password);
-      navigate("/main-chat");
+      const q = query(usersCollectionRef, where("email", "==", email));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.forEach((doc) => {
+        console.log(doc.id, " => ", doc.data());
+        setUser(doc.data().name);
+        setUserid(doc.id);
+      });
+
+      
+      navigate("/home");
     } catch (err) {
       setError(err.message);
     }
@@ -75,9 +96,9 @@ function Login() {
             Submit
           </button>
         </div>
-         <div className="google-signin">
+        <div className="google-signin">
           <div className="google">
-            <a  onClick={handleGoogleSignIn} href=""><GoogleIcon fontSize='large' /></a> 
+            <a onClick={handleGoogleSignIn} href=""><GoogleIcon fontSize='large' /></a>
 
           </div>
           <h6>Sign-in with google</h6>
@@ -92,7 +113,13 @@ function Login() {
       </div>
     </div>
 
+
+
+
   )
 }
 
 export default Login
+// export function useUserDetails() {
+//   return useContext(userDetails);
+// }
