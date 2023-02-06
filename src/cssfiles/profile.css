@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');
+
+
+
+
+.profile {
+    flex: 0.15;
+    display: flex;
+    background-color: rgb(247, 244, 244);
+    flex-direction: column;
+    position: relative;
+    /* background: rgb(255, 255, 255);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.7150210425967262) 10%, rgba(251, 251, 251, 0.6561975131849616) 100%); */
+}
+
+.profile_header{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 45px;
+}
+
+.profile__avatar{
+    border-radius: 50px;
+
+}
+
+.profile_header > h6{
+    font-family: 'Roboto', sans-serif;
+    padding-top: 10px;
+}
+
+.tabs{
+    display: flex;
+    flex-direction: column;
+    
+    text-decoration: none;
+    
+}
+
+a {
+    font-family: 'Roboto', sans-serif;
+    
+    color: #656565;
+    text-decoration: none;
+    
+}
+
+a:hover{
+    color: rgb(254, 72, 72);
+}
+
+
+.tabs > ul{
+    padding: 20px;
+    list-style: none;
+}
+
+.tabs > ul > li >a{
+    padding-left: 20px;
+    font-size: 13px;
+    
+}
+
+.tabs > ul > li {
+    padding-top: 30px;
+}
+
+.profile_footer{
+    position: absolute;
+    bottom: 12px;
+    
+}
+
+.profile_footer > a{
+    padding-left: 40px;
+
+}
+
