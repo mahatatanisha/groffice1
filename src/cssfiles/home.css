@@ -34,5 +34,53 @@
 
  .icon > .search {
   display: flex;
+  
   padding-right: 400px;
 }
+
+.search-user{
+    display: flex;
+    flex-direction: column;
+    padding-right: 200px;
+    
+    margin-left: 200px;
+    align-self: center;
+    width: 600px;
+}
+
+.add-participant{
+    margin-top: 50px;
+    padding: 20px;
+    width: 400px;
+    height: 200px;
+    background: rgb(169, 168, 168);
+    display: flex;
+    flex-direction: column;
+}
+
+.add-participant > .profile__avatar{
+    border-radius: 50px;
+}
+
+.add-participant > .add-participant-header{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+.add-participant > .add-participant-header > h4{
+    margin-left: 10px ;
+}
+
+.add-participant > .btn {
+    margin-top: 30px;
+    margin-left: 10px;
+    text-align: center;
+    transition: 0.5s;
+    background-size: 200% auto;
+    color: white;
+    box-shadow: 0 0 20px rgb(79, 78, 78);
+    border-radius: 5px;
+    background-image: linear-gradient(to right, #562B08 0%, #643814 51%, #683c19 100%);
+}
+

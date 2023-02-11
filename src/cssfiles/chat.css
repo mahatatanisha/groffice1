@@ -57,6 +57,11 @@
     font-weight: 500;
 }
 
+.chat__header > button{
+    background: none;
+    box-shadow: none;
+}
+
 .chat_headerInfo>p {
     color: gray;
 }

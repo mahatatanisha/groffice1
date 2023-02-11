@@ -5,6 +5,11 @@ import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined
 import MicNoneOutlinedIcon from '@mui/icons-material/MicNoneOutlined';
 import { useUserAuth } from "../context/UserAuthContext";
 import { db } from "./firebase";
+import MoreVertIcon from '@mui/icons-material/MoreVert';
+import IconButton from "@material-ui/core/IconButton";
+import MenuItem from "@material-ui/core/MenuItem";
+import Menu from "@material-ui/core/Menu";
+import Modal from '@mui/material/Modal';
 
 import {
 
@@ -24,14 +29,14 @@ function Chat() {
   const [input, setInput] = useState("");
   const { user, userid, mainRoomId, mainRoomName, mainRoomParticipants } = useUserAuth();
   const [participantsNames, setParticipantsNames] = useState([]);
-
+  const [anchorEl, setAnchorEl] = useState(null);
 
   const url = `/MainRooms/${mainRoomId}/Messages`;
   const mainRoomPartiRef = doc(db, "MainRooms", mainRoomId);
 
   useEffect(() => {
 
-    
+
     getParticipants();
 
   }, []);
@@ -39,9 +44,23 @@ function Chat() {
   useEffect(() => {
 
     getMsgs();
-    
+
   }, []);
   // }, [messages, mainRoomId]);
+
+  const MyOptions = [
+    "+ Create a Sub Group"
+  ];
+  
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  
+  const open = Boolean(anchorEl);
+  
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
 
   const MessageollectionRef = collection(db, url);
   const q = query(MessageollectionRef, orderBy('timestamp', 'asc'));
@@ -72,10 +91,10 @@ function Chat() {
   }
 
 
-  
+
 
   const getParticipants = async () => {
-    const data =  await getDoc(mainRoomPartiRef);
+    const data = await getDoc(mainRoomPartiRef);
 
     const participant = data.data()["participants"];
     participant.forEach(async (user) => {
@@ -107,9 +126,29 @@ function Chat() {
               ))}
             </p>
 
-
           </div>
+          <IconButton
+            aria-label="more"
+            onClick={handleClick}
+            aria-haspopup="true"
+            aria-controls="long-menu"
+          >
+            <MoreVertIcon />
+          </IconButton>
 
+          <Menu
+            anchorEl={anchorEl}
+            MenuProps={{ keepMounted: false, disablePortal: true }}
+            onClose={handleClose}
+            open={open}>
+            {MyOptions.map((option) => (
+              <MenuItem
+                key={option}
+                onClick={handleClose}>
+                {option}
+              </MenuItem>
+            ))}
+          </Menu>
         </div>
         <div className="sub-group">
           <SubgroupChatTab />
