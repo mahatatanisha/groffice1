@@ -8,6 +8,7 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import SettingsIcon from '@mui/icons-material/Settings';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { useUserAuth } from "../context/UserAuthContext";
+import Notifications from './Notifications';
 function Profile() {
   const { user } = useUserAuth();
 
@@ -25,7 +26,7 @@ function Profile() {
           <li><NavLink activeclassname="active" to="/home"><WindowIcon fontSize='small' />  HOME</NavLink></li>
           <li><NavLink activeclassname="active" to="/chat"><SmsIcon fontSize='small' />  CHAT</NavLink></li>
           <li><NavLink activeclassname="active" to="/documents"><DescriptionIcon fontSize='small' />    DOCUMENTS</NavLink></li>
-          <li><NavLink activeclassname="active" to="/notifications"><NotificationsIcon fontSize='small' />    NOTIFICATIONS</NavLink></li>
+          <li><NavLink activeclassname="active" to="/notifications" onClick={<Notifications/>}><NotificationsIcon fontSize='small' />    NOTIFICATIONS</NavLink></li>
           <li><NavLink activeclassname="active" to="/settings"><SettingsIcon fontSize='small' />    SETTINGS</NavLink></li>
 
         </ul>

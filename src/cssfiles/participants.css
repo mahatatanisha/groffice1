@@ -30,7 +30,7 @@
 
 }
 
-.uploadbutton{
+.uploadbutton {
     border: #000;
 }
 
@@ -66,14 +66,14 @@
 
 
 
-.Background>.ModalWrapper> .done >h4 {
+.Background>.ModalWrapper>.done>h4 {
     font-family: 'Roboto', sans-serif;
     padding: 5px;
     color: #fff;
 
 }
 
-.account-name{
+.account-name {
     margin-left: 8px;
 }
 
@@ -88,26 +88,26 @@
     margin-bottom: 10px;
 }
 
-.CloseModelButton{
+.Background > .ModalWrapper > .CloseModelButton>button {
     background-color: none;
     cursor: pointer;
-  position: absolute;
-  top: 20px;
-  right: 20px;
-  width: 32px;
-  height: 32px;
-  padding-left: 30px;
-  
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    width: 32px;
+    height: 32px;
+    padding-left: 30px;
+
 
 }
 
-.done{
+.done {
     flex-direction: row;
     display: flex;
 }
 
-.Button{
-    background-color: #647E68;
+.Button {
+    background-color: none;
     color: white;
     font-size: 10px;
     padding: 10px 20px;

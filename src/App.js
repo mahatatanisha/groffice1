@@ -12,6 +12,7 @@ import MainChat from './components/MainChat';
 import Signup from './components/Signup';
 import Home from './components/Home';
 import Documents from './components/Documents';
+import Notifications from './components/Notifications';
 
 function App() {
 
@@ -32,8 +33,8 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/chat" element={<MainChat />} />
             <Route path="/home" element={<Home />} />
-           
             <Route path="/documents" element={<Documents/>}/>
+            <Route path="/notifications" element={<Notifications/>}/>
           </Routes>
         </UserAuthContextProvider>
 
