@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import '../cssfiles/chat.css'
 import SubgroupChatTab from './SubgroupChatTab';
 import EmojiEmotionsOutlinedIcon from '@mui/icons-material/EmojiEmotionsOutlined';
@@ -34,18 +34,23 @@ function Chat() {
   const url = `/MainRooms/${mainRoomId}/Messages`;
   const mainRoomPartiRef = doc(db, "MainRooms", mainRoomId);
 
+ 
+    const latestValue = useRef(mainRoomId)
+    let prev = mainRoomId;
+  
+   
+
   useEffect(() => {
+   
+      if (prev !== latestValue.current){
+        prev = latestValue.current
+        getMsgs();
+        //getParticipants();
 
-
-    getParticipants();
-
-  }, []);
-
-  useEffect(() => {
-
+      }
     getMsgs();
 
-  }, []);
+  }, [mainRoomId, messages, participantsNames]);
   // }, [messages, mainRoomId]);
 
   const MyOptions = [
@@ -98,7 +103,7 @@ function Chat() {
 
     const participant = data.data()["participants"];
     participant.forEach(async (user) => {
-      const participantDoc = await getDoc(user);
+      const participantDoc = await getDoc(doc(db,user));
       if (participantDoc.exists()) {
         console.log("details: ", participantDoc.data().name);
         setParticipantsNames((oldArray) => [...oldArray, participantDoc.data().name]);
@@ -157,13 +162,13 @@ function Chat() {
           <SubgroupChatTab />
         </div>
         <div className="chat__main">
-          {messages.map(message => (
+          {messages? messages.map(message => (
 
             <p key={message.timestamp} className={`${message.name === user ? "chat_receiver" : "chat_message"}`}>
               <span className="chat_name">{message.name}</span>
               {message.message}
               <span className="chat_timestemp">uhbk</span>
-            </p>))}
+            </p>)):"Start the Conversation!"}
 
         </div>
 
