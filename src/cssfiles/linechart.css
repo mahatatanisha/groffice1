@@ -1,0 +1,11 @@
+.graph{
+    /* padding: 30px;
+    padding-left: 110px; */
+    display: flex;
+    align-self: center;
+}
+
+.chart-heading{
+    color: rgb(245, 244, 244);
+    text-align:center;
+}

@@ -22,7 +22,7 @@ function MainChat() {
             <h1>GrOffice...</h1>
           </div>
         )}
-        {/* <Chat/> */}
+       
         
     </div>
   )

@@ -8,7 +8,7 @@ const firebaseConfig = {
   authDomain: "groffice-4d952.firebaseapp.com",
   databaseURL: "https://groffice-4d952-default-rtdb.firebaseio.com",
   projectId: "groffice-4d952",
-  storageBucket: "groffice-4d952.appspot.com",
+  storageBucket: 'groffice-4d952.appspot.com',
   messagingSenderId: "46581289842",
   appId: "1:46581289842:web:a5019af858be8cf8bec3eb",
   measurementId: "G-B0DY24CFGM"

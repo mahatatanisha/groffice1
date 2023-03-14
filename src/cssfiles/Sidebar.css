@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: row;
     padding: 30px;
-
+    
 }
 
 .sidebar__header>.sidebar__header__top {
@@ -27,9 +27,9 @@
 .sidebar__header>.sidebar__header__top>h3 {
     font-family: 'Roboto', sans-serif;
     color: #0a0a0a;
-    font-size: x-large;
+    font-size: 35px;
     font-weight: 400px;
-    padding-top: 15px;
+    padding-top: 20px;
 }
 
 .sidebar__header>.sidebar__header__top>.recentchats {
@@ -45,6 +45,21 @@
 }
 
 
+.sidebar__header> button{
+    display: flex;
+    flex-wrap: wrap;
+    align-self: baseline;
+    padding-top: 30px;
+    padding-left: 30px;
+    background: none;
+    box-shadow: none;  
+}
+
+.sidebar__header> a{
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #ece8e8;
+}
 
 .btn {
     flex: 1 1 auto;
@@ -70,6 +85,7 @@
 
 .btn-1 {
     background-image: linear-gradient(to right, #562B08 0%, #643814 51%, #683c19 100%);
+    
 }
 
 

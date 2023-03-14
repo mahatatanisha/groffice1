@@ -64,18 +64,19 @@
   /* Table Styling */
 
   table {
-    table-layout: fixed;
+    table-layout:fixed;
+    word-wrap:break-word;
     width: 100%;
     border-collapse: collapse;
     
   }
   
   thead th:nth-child(1) {
-    width: 30%;
+    width: 40%;
   }
   
   thead th:nth-child(2) {
-    width: 20%;
+    width: 15%;
   }
   
   thead th:nth-child(3) {
@@ -83,10 +84,33 @@
   }
   
   thead th:nth-child(4) {
-    width: 35%;
+    width: 15%;
+  }
+
+  thead th:nth-child(5) {
+    width: 15%;
   }
   
   th,
   td {
     padding: 20px;
+  }
+  table > tbody> tr{
+    background: #efeeee;
+   padding-top: 30px;
+   border-radius: 8px;
+   cursor: pointer;
+   
+   
+  }
+
+  table > thead> tr {
+    background-color: #562B08;
+    color: #fff;
+  }
+  .table-content{
+    border-collapse:separate;
+    border-spacing:0px 15px;
+    padding: 15px;
+    
   }

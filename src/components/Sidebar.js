@@ -5,27 +5,34 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarChat from './SidebarChat';
 import { useUserAuth } from "../context/UserAuthContext";
-
+import Spinner from './Spinner';
 import { db } from "./firebase";
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
 import {
 
   collection,
   getDocs,
   getDoc,
-
+  doc,
 } from "firebase/firestore";
 import { Participants } from './Participants';
 
 
 function Sidebar() {
   const [rooms, setRooms] = useState([]);
-  const [participantsNames, setParticipantsNames] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const { userid } = useUserAuth();
 
-  const list = ["Shivani", "Rishi", "Mili", "Umang", "Kailsah"];
+  const [showModal, setShowModal] = useState(false);
+  const [loading, setLoading] = useState(false);
+  // const [callFrom, setCallFrom] = useState("MainGroup");
+  const [docid, setDocID] = useState("");
+  const { userid, mainRoomId,callFrom, setCallFrom } = useUserAuth();
+
+
 
   const mainRoomDemoRef = collection(db, `/Users/${userid}/MainRooms`);
+  const mainRoomRef = collection(db, "/MainRooms");
+  const usersCollectionRef = collection(db, "Users");
+
 
   useEffect(() => {
 
@@ -35,7 +42,9 @@ function Sidebar() {
   }, []);
 
   const openModal = () => {
+
     setShowModal(prev => !prev);
+
   };
 
 
@@ -49,36 +58,23 @@ function Sidebar() {
   };
 
   const getRoomRef = async () => {
+    setLoading(true);
     const data = await getAllRooms();
-    data.docs.forEach(async (doc) => {
-      const roomRef = doc.data()["GrpRef"];
-      const roomDoc = await getDoc(roomRef);
-      if (roomDoc.exists()) {
-        const participants = roomDoc.data().participants;
-        participants.forEach(async (user) => {
-          const participantDoc = await getDoc(user);
-          if (participantDoc.exists()) {
-            console.log("details: ", participantDoc.data().name);
-            setParticipantsNames((oldArray) => [...oldArray, participantDoc.data().name]);
-
-          } else {
-            // doc.data() will be undefined in this case
-            console.log("No such user document!");
-          }
-        })
-
-        setRooms( (oldArray) => [...oldArray, { 
-          id: roomDoc.id, 
-          Name: roomDoc.data().Name, 
-          members: participantsNames,
-        }]);
+    data.docs.forEach(async (document) => {
+      setDocID(document.id);
+      console.log("SideBAr: ", document.id);
+      const roomRef = document.data()["GrpRef"];
+      const roomDoc = await getDoc(doc(mainRoomRef, roomRef));
+      setRooms((oldArray) => [...oldArray, {
+        id: roomDoc.id,
+        Name: roomDoc.data().Name,
+        userMainRoom: document.id,
+      }]);
+     
+      setLoading(false);
 
 
 
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
-      }
 
     })
 
@@ -95,14 +91,12 @@ function Sidebar() {
       <div className="sidebar__header">
         <div className="sidebar__header__top">
           <h3>Chats</h3>
-          <div className="recentchats">
-            <h6>Recent chats</h6>
-            <KeyboardArrowDownIcon />
-          </div>
         </div>
-        <a className="btn btn-1" onClick={openModal}>
-          <AddIcon /> Create new group</a>
-        <Participants showModal={showModal} setShowModal={setShowModal} />
+        <button className='parti-icon'><PeopleAltIcon/></button>
+        <a className="btn btn-1" onClick={() => { setCallFrom("MainGroup"); openModal(); }}>
+          <AddIcon /> New group</a>
+        {callFrom ? <Participants showModal={showModal} setShowModal={setShowModal}  /> : ""}
+
       </div>
 
 
@@ -128,12 +122,16 @@ function Sidebar() {
       </div>
 
 
-      <div className="sidebar__chats">
-        {rooms.map(room => (
-          <SidebarChat key={room.id} id={room.id} name={room.Name} participants={room.members} />
-        ))}
 
-      </div>
+      {rooms.length === 0 ? "Create New Groups" : <div className="sidebar__chats">{loading ? <Spinner /> :
+        rooms.map(room => (
+          <SidebarChat key={room.id} id={room.id} name={room.Name}  MainRoom={room.userMainRoom} />
+        ))
+      }</div>}
+
+
+
+
     </div>
   )
 }

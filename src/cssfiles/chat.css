@@ -66,9 +66,34 @@
     color: gray;
 }
 
+ .parti-list{
+    margin-left: -180px;
+    margin-top: -130px;
+    
+}
+
 .profile__avatar {
     display: flex;
     flex-wrap: wrap;
+}
+
+.chat-avatar{
+    
+    padding-bottom: 50px;
+    
+}
+
+.profile__avatar >.chatcamera{
+    display: flex;
+    
+    align-items:center;
+    position: absolute;
+    margin-bottom: 30px;
+    padding-right: 20px;
+    height: 0%;
+    width: 0%;
+    
+
 }
 
 .profile__avatar>img {
@@ -120,12 +145,12 @@
 .chat__main {
     flex: 1;
     padding: 30px;
-    background-color: #D8D8D8;
+    background-color: #ffffff;
     /* background: rgb(234, 248, 196);
     background: linear-gradient(180deg, rgba(234, 248, 196, 1) 13%, rgba(234, 248, 196, 1) 51%, rgba(255, 197, 197, 1) 100%); */
     overflow-y: scroll;
     position: absolute;
-    height: 70.90%;
+    height: 68.90%;
     width: 100%;
     bottom: 59px;
 
@@ -139,7 +164,7 @@
     border: 1px solid lightgray;
     /* background-image: linear-gradient(to right, #f66565 0%, #fd8585 51%, #f66565 100%); */
     background-color: #49634d;
-    color: white;
+    color: rgb(2, 2, 2);
     width: fit-content;
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }

@@ -68,9 +68,10 @@
     align-items: center;
     
 }
-.add-participant > .add-participant-header > h4{
+.add-participant > .add-participant-header > .info{
     margin-left: 10px ;
 }
+
 
 .add-participant > .btn {
     margin-top: 30px;

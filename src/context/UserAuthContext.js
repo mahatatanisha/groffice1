@@ -17,6 +17,11 @@ export function UserAuthContextProvider({ children }) {
   const [mainRoomId, setMainRoomId] = useState("");
   const [mainRoomName, setMainRoomName] = useState("");
   const [mainRoomParticipants, setMainRoomParticipants] = useState("");
+  const [userMainRoomDocId, setUserMainRoomDocId] = useState(null);
+  const [subRoomName, setSubRoomName] = useState("");
+  const [subRoomId, setSubRoomId] = useState(null);
+  const [callFrom, setCallFrom] = useState(null);
+
 
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
@@ -45,7 +50,15 @@ export function UserAuthContextProvider({ children }) {
 
   return (
     <userAuthContext.Provider
-      value={{mainRoomParticipants,
+      value={{
+        callFrom, setCallFrom,
+        subRoomId,
+        setSubRoomId,
+        subRoomName,
+        setSubRoomName,
+        userMainRoomDocId,
+        setUserMainRoomDocId,
+        mainRoomParticipants,
         setMainRoomParticipants,
         mainRoomName, 
         setMainRoomName,

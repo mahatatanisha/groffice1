@@ -13,6 +13,7 @@ import {
   getDocs,
   getDoc,
 } from "firebase/firestore";
+import Spinner from './Spinner';
 
 export const userDetails = createContext();
 function Login() {
@@ -21,6 +22,7 @@ function Login() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const { logIn, googleSignIn, setUser, setUserid } = useUserAuth();
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const usersCollectionRef = collection(db, "Users");
@@ -29,7 +31,9 @@ function Login() {
     e.preventDefault();
     setError("");
     try {
+      setLoading(true);
       await logIn(email, password);
+      
       const q = query(usersCollectionRef, where("email", "==", email));
       const querySnapshot = await getDocs(q);
       querySnapshot.forEach((doc) => {
@@ -37,9 +41,9 @@ function Login() {
         setUser(doc.data().name);
         setUserid(doc.id);
       });
-
       
       navigate("/home");
+      setLoading(false);
     } catch (err) {
       setError(err.message);
     }
@@ -91,11 +95,14 @@ function Login() {
             </label>
           </div>
         </div>
-        <div className="d-grid">
-          <button type="submit" className="shadow-none btn btn-default">
-            Submit
-          </button>
-        </div>
+        {loading ? <Spinner /> :
+          <div className="d-grid">
+            <button type="submit" className="shadow-none btn btn-default">
+              Submit
+            </button>
+          </div>
+        }
+
         <div className="google-signin">
           <div className="google">
             <a onClick={handleGoogleSignIn} href=""><GoogleIcon fontSize='large' /></a>

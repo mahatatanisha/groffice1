@@ -21,17 +21,16 @@ import {
     doc,
   } from "firebase/firestore";
 
-function SidebarChat({id,name,participants}) {
+function SidebarChat({id,name,MainRoom}) {
     const [grpMsg, setGrpMsg] = useState("");
-    const { userid, setMainRoomId, setMainRoomParticipants, setMainRoomName } = useUserAuth();
+    const { setSubRoomName,setSubRoomId, setMainRoomId,  setMainRoomName,  setUserMainRoomDocId } = useUserAuth();
 
     const MessageollectionRef = collection(db,`/MainRooms/${id}/Messages`);
     const q = query(MessageollectionRef, orderBy('timestamp', 'desc'),limit(3));
 
     useEffect(() => {
         showMessage();
-        participants.map((item)=>{console.log("useeffect item=",item)})
-    }, [participants]);
+    }, []);
     
     const getAllMsg = () => {
         return getDocs(q);
@@ -47,10 +46,11 @@ function SidebarChat({id,name,participants}) {
       const onSidebarChatCLick = ()=>{
         setMainRoomId(id);
         setMainRoomName(name);
-        setMainRoomParticipants(participants);
-        participants.map(element => {
-          console.log("participants of siderchat: ",element);
-        });
+        setSubRoomId(null);
+        setSubRoomName(null);
+        setUserMainRoomDocId(MainRoom);
+        console.log("OnSideBarClick:",MainRoom)
+        window.history.replaceState(null, null, `/chat/${id}`);
        
       }
     

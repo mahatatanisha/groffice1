@@ -1,57 +1,59 @@
-import React, { useState }  from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from "react-router-dom";
-import {  Alert } from "react-bootstrap";
+import { Alert } from "react-bootstrap";
 import { useUserAuth } from "../context/UserAuthContext";
-import {db} from "./firebase";
+import { db } from "./firebase";
 import {
-    collection,
-    addDoc,
-  } from "firebase/firestore";
+  collection,
+  addDoc,
+} from "firebase/firestore";
+import Spinner from './Spinner';
 
 function Signup() {
-    const [email, setEmail] = useState("");
-    const [error, setError] = useState("");
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
-    
-    const [flag, setFlag] = useState(null); 
-    const { signUp } = useUserAuth();
-    let navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
+  const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [flag, setFlag] = useState(null);
+  const { signUp } = useUserAuth();
+  let navigate = useNavigate();
 
-    const userCollection = collection(db, "Users");
-   
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError("");
-        try {
-          await signUp(email, password);
-          setFlag("true");
-          navigate("/");
-          const user = {
-            name,
-            email,
-            password,
-          };
-          addDoc(userCollection, user);
-          
-      
-      
-        
-        } catch (err) {
-          setError(err.message);
-        }
+  const userCollection = collection(db, "Users");
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
+    try {
+      setLoading(true);
+      await signUp(email, password);
+      setFlag("true");
+      navigate("/");
+      const user = {
+        name,
+        email,
+        password,
       };
+      addDoc(userCollection, user);
+      setLoading(false);
 
-    
-        
-    
 
-    const addUser = (user) => {
-        return addDoc(userCollection, user);
-      }
+
+    } catch (err) {
+      setError(err.message);
+    }
+  };
+
+
+
+
+
+  const addUser = (user) => {
+    return addDoc(userCollection, user);
+  }
   return (
     <div className="login">
-        <h1>Gr_O_ffice</h1>
+      <h1>Gr_O_ffice</h1>
       <form className='Signup_form' onSubmit={handleSubmit}>
         <h3>Sign In</h3>
         {error && <Alert variant="danger">{error}</Alert>}
@@ -82,14 +84,14 @@ function Signup() {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        
-        <div className="d-grid">
+        {loading ? <Spinner /> : <div className="d-grid">
           <button type="submit" onClick={addUser} className="shadow-none btn btn-default">
             Submit
           </button>
-        </div>
-        </form>
-        <div className="p-4 box mt-3 text-center">
+        </div>}
+
+      </form>
+      <div className="p-4 box mt-3 text-center">
         Already have an account? <Link to="/">Log In</Link>
       </div>
     </div>
