@@ -56,7 +56,7 @@ function Chat() {
   const mainRoomRef = collection(db, "/MainRooms");
   const clickedMainRoomSubRoomsRef = collection(db, `/Users/${userid}/MainRooms/${userMainRoomDocId}/SubRooms`)
   const subRoomRef = collection(db, `/MainRooms/${mainRoomId}/SubRooms`)
-
+  
 
 
   const latestValue = useRef(mainRoomId)
@@ -66,16 +66,19 @@ function Chat() {
 
 
   useEffect(() => {
+    listAllGroupPics();
     if (dataFetchedRef.current) return;
     if (prev !== latestValue.current) {
       prev = latestValue.current
       //getMsgs();
       getSubRoomRef();
+      listAllGroupPics();
 
 
     }
     getSubRoomRef();
-
+    
+    
 
     dataFetchedRef.current = true;
   }, [mainRoomId, messages, participantsNames]);
@@ -234,20 +237,21 @@ function Chat() {
   }
   const storage = getStorage();
 
-  const listRef = ref(storage, `${userid}/groupPic/${mainRoomId}`);
+  const listRef = ref(storage, `MainRoom/${mainRoomId}/groupPic`);
 
-  const listAllDocuments = () => {
+  const listAllGroupPics = () => {
     listAll(listRef)
       .then((res) => {
 
         res.items.forEach((itemRef) => {
 
-          getMetadata(ref(storage, `${userid}/groupPic/${mainRoomId}/${itemRef.name}`))
+          getMetadata(ref(storage, `MainRoom/${mainRoomId}/groupPic/${itemRef.name}`))
             .then((metadatas) => {
               console.log("profile pic", metadatas.fullPath);
               getDownloadURL(ref(storage, metadatas.fullPath))
                 .then((url) => {
-                  const img = document.getElementById('document');
+                 
+                  const img = document.getElementById('groupicon');
                   img.setAttribute('src', url);
                 })
 
@@ -266,7 +270,7 @@ function Chat() {
       });
   }
 
-  const uploadFile = async (e) => {
+  const uploadGroupFile = async (e) => {
     const fileName = e.target.files[0];
     const metadata = {
       customMetadata: {
@@ -277,7 +281,7 @@ function Chat() {
     };
     listAll(listRef).then((res) => {
       res.items.forEach(async (itemRef) => {
-        const desertRef = ref(storage, `${userid}/groupPic/${mainRoomId}/${itemRef.name}`);
+        const desertRef = ref(storage, `MainRoom/${mainRoomId}/groupPic/${itemRef.name}`);
         await deleteObject(desertRef).then(() => {
           console.log("pics deleted")
         })
@@ -285,9 +289,9 @@ function Chat() {
 
     }).then(async () => {
       if (fileName == null) return;
-      const imageRef = ref(storage, `${userid}/profilePic/${fileName.name}`);
+      const imageRef = ref(storage, `MainRoom/${mainRoomId}/groupPic/${fileName.name}`);
       await uploadBytes(imageRef, fileName, metadata).then(() => {
-        alert("Profile picture updated");
+        alert("Group Icon updated");
 
       });
     })
@@ -306,10 +310,10 @@ function Chat() {
         <div className="chat__header">
           <div className="profile__avatar chat-avatar" >
             <div className='img2 image'> <img src="https://as2.ftcdn.net/v2/jpg/01/77/38/91/1000_F_177389160_wNADdOYpPWAP64NXYKNjVBn52A0UC3dy.jpg" alt="" width="55px" height="55px" /></div>
-            <div className='img2 image'><img id='document' alt="" width="55px" height="55px" /></div>
+            <div className='img2 image'><img id='groupicon' alt="" width="55px" height="55px" /></div>
             <div className='camera chatcamera image '><PhotoCameraIcon className='cameraog' /></div>
             <div className="camera chatcamera image"><input type="file" onChange={(event) => {
-              uploadFile(event);
+              uploadGroupFile(event);
 
 
             }} /></div>

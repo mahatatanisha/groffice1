@@ -5,6 +5,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import SearchIcon from '@mui/icons-material/Search';
 import SidebarChat from './SidebarChat';
 import { useUserAuth } from "../context/UserAuthContext";
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Spinner from './Spinner';
 import { db } from "./firebase";
 import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
@@ -25,13 +26,15 @@ function Sidebar() {
   const [loading, setLoading] = useState(false);
   // const [callFrom, setCallFrom] = useState("MainGroup");
   const [docid, setDocID] = useState("");
-  const { userid, mainRoomId,callFrom, setCallFrom } = useUserAuth();
-
+  const { userid, mainRoomId, callFrom, setCallFrom } = useUserAuth();
+  const [participants, setParticipants] = useState([]);
+  const [showParticipants, setShowParticipants] = useState(false);
 
 
   const mainRoomDemoRef = collection(db, `/Users/${userid}/MainRooms`);
   const mainRoomRef = collection(db, "/MainRooms");
   const usersCollectionRef = collection(db, "Users");
+  const participantsRef = collection(db, `/Users/${userid}/Participants`);
 
 
   useEffect(() => {
@@ -49,9 +52,22 @@ function Sidebar() {
 
 
 
-  // const getAllParticipants=()=>{
-  //   return getDocs(participantsCollectionRef);
-  // }
+  const getParticipantsSidebar = () => {
+    return getDocs(participantsRef);
+  }
+
+  const getPartiSidebar = async () => {
+    setLoading(true);
+
+    const partidata = await getParticipantsSidebar();
+    setParticipants(partidata.docs.map((doc) => ({
+      id: doc.id,
+      participantId: doc.data().participantId,
+      participantName: doc.data().participantName,
+
+    })))
+    setLoading(false);
+  }
 
   const getAllRooms = () => {
     return getDocs(mainRoomDemoRef);
@@ -70,7 +86,7 @@ function Sidebar() {
         Name: roomDoc.data().Name,
         userMainRoom: document.id,
       }]);
-     
+
       setLoading(false);
 
 
@@ -92,10 +108,18 @@ function Sidebar() {
         <div className="sidebar__header__top">
           <h3>Chats</h3>
         </div>
-        <button className='parti-icon'><PeopleAltIcon/></button>
+        <button className='parti-icon' onClick={() => {
+
+          if (!showParticipants) {
+            setShowParticipants(true);
+            getPartiSidebar();
+          } else {
+            setShowParticipants(false);
+          }
+        }}><PeopleAltIcon /></button>
         <a className="btn btn-1" onClick={() => { setCallFrom("MainGroup"); openModal(); }}>
           <AddIcon /> New group</a>
-        {callFrom ? <Participants showModal={showModal} setShowModal={setShowModal}  /> : ""}
+        {callFrom ? <Participants showModal={showModal} setShowModal={setShowModal} /> : ""}
 
       </div>
 
@@ -120,14 +144,27 @@ function Sidebar() {
 
         </div>
       </div>
+      {showParticipants ? <div className='sidebar__chats'>
+        <h3>Participants List</h3>
+       
+        {participants.map((item) => (
+          <div className="sidebarchat">
 
+            <div className="sidebar__header">
+              <AccountCircleIcon fontSize='large' />
+              <h6>{item.participantName}</h6>
+            </div>
 
+          </div>))}
 
-      {rooms.length === 0 ? "Create New Groups" : <div className="sidebar__chats">{loading ? <Spinner /> :
+      </div> : <div className="sidebar__chats">{loading ? <Spinner /> :
         rooms.map(room => (
-          <SidebarChat key={room.id} id={room.id} name={room.Name}  MainRoom={room.userMainRoom} />
+          <SidebarChat key={room.id} id={room.id} name={room.Name} MainRoom={room.userMainRoom} />
         ))
       }</div>}
+
+
+
 
 
 

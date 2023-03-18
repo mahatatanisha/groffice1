@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../cssfiles/home.css';
 import Profile from './Profile'
 import logo from '../logogroffice.png';
@@ -6,14 +6,30 @@ import AsyncSelect from 'react-select/async';
 import Spinner from './Spinner';
 import { db } from "./firebase";
 import { useUserAuth } from "../context/UserAuthContext";
+import FileDownloadIcon from '@mui/icons-material/FileDownload';
+import DescriptionIcon from '@mui/icons-material/Description';
+
 import {
   collection,
   getDocs,
   endAt,
   query, orderBy, startAt, addDoc
 } from "firebase/firestore";
+import {
+  ref,
+  getStorage,
+  uploadBytes,
+  deleteObject,
+  getMetadata,
+  listAll,
+  getDownloadURL,
+
+} from "firebase/storage";
+import { storage } from "./firebase";
 
 function Home() {
+
+
 
   const [selectedTag, setSelectedTag] = useState(false);
   const [btntxt, setbtntxt] = useState("Send Request");
@@ -23,8 +39,11 @@ function Home() {
   const { userid, user } = useUserAuth();
   const [loading, setLoading] = useState(false);
   const [participants, setParticipants] = useState([]);
+  const [imageurl, setImageUrl] = useState("");
+  const [fileNames, setFileNames] = useState([]);
 
   const usersCollectionRef = collection(db, "Users");
+  const storage = getStorage();
 
 
   const loadOptions = async (inputValue) => {
@@ -57,10 +76,14 @@ function Home() {
 
 
   const handleOnChange = async (tags) => {
+    
     setActorId(tags.value);
     setActorName(tags.label);
     setActorEmail(tags.email);
     await getParti(tags.value);
+    await listProfileIcons(tags.value);
+    await listActorDocuments(tags.value);
+    
 
   }
 
@@ -130,6 +153,74 @@ function Home() {
 
   }
 
+  const listProfileIcons = async (actorid) => {
+    const listRef = ref(storage, `${actorid}/profilePic`);
+    listAll(listRef)
+      .then((res) => {
+
+        res.items.forEach((itemRef) => {
+
+          getMetadata(ref(storage, `${actorid}/profilePic/${itemRef.name}`))
+            .then((metadatas) => {
+              console.log("profile pic", metadatas.fullPath);
+              getDownloadURL(ref(storage, metadatas.fullPath))
+                .then((url) => {
+                  const img = document.getElementById('document2');
+                  setImageUrl(url)
+                  img.setAttribute('src', url);
+                })
+
+            })
+            .catch((error) => {
+              // Uh-oh, an error occurred!
+            });
+
+        });
+
+
+
+      }).catch((error) => {
+        // Uh-oh, an error occurred!
+        console.log("Uh-oh, an error occurred!");
+      });
+  }
+
+
+  // Find all the prefixes and items.
+  const listActorDocuments =async (actorid) => {
+    setFileNames([]);
+    const listRef = ref(storage, `${actorid}/`);
+      listAll(listRef)
+          .then((res) => {
+
+              res.items.forEach((itemRef) => {
+
+                  getMetadata(ref(storage, `${actorid}/${itemRef.name}`))
+                      .then((metadatas) => {
+                        
+                          if(metadatas.customMetadata.mode === 'Public'){
+                            setFileNames((oldArray) => [...oldArray, {
+                              Name: itemRef.name,
+                              size: metadatas.size,
+                              type: metadatas.type,
+                          }]);
+                          }
+                         
+                      })
+                      .catch((error) => {
+                          // Uh-oh, an error occurred!
+                      });
+
+              });
+
+
+
+          }).catch((error) => {
+              // Uh-oh, an error occurred!
+              console.log("Uh-oh, an error occurred!");
+          });
+  }
+
   return (
     <div className='home'>
       <Profile />
@@ -158,17 +249,49 @@ function Home() {
           <div className='add-participant'>
             <div className="add-participant-header">
               <div className="profile__avatar" >
-                <img src="https://thumbs.dreamstime.com/b/vector-illustration-avatar-dummy-logo-collection-image-icon-stock-isolated-object-set-symbol-web-137160339.jpg" alt="" width="75px" height="75px" />
+                {/* <img    alt="" /> */}
+                <img id='document2' src="https://thumbs.dreamstime.com/b/vector-illustration-avatar-dummy-logo-collection-image-icon-stock-isolated-object-set-symbol-web-137160339.jpg" alt="" width="75px" height="75px" />
               </div>
               <div className="info">
                 <h4>{actorname}</h4>
                 <h6>{actoremail}</h6>
               </div>
-
+            
 
             </div>
             {loading ? <Spinner /> : <button id='myBtn' className='btn' disabled={(btntxt === "Already friends") || (btntxt === "Sent!") ? true : false} onClick={sendRequest}>{btntxt}</button>}
+            <table className='table-content'>
+                <thead>
+                  <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Size</th>
+                    <th scope="col">Type</th>
+                    <th scope="col">Download</th>
 
+
+                  </tr>
+                </thead>
+                <tbody>
+
+                {fileNames.map((file) => (
+                   <tr >
+                   <th scope="row"> <DescriptionIcon /> {file.Name}</th>
+                   <td>90kb</td>
+                   <td>file</td>
+                   <td><FileDownloadIcon /></td>
+
+                 </tr>
+
+                ))}
+
+                 
+
+
+
+                </tbody>
+
+
+              </table>
 
           </div>)
           : (<img src={logo} alt="" />)}

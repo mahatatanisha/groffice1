@@ -5,8 +5,7 @@
 .login {
     width: 500px;
     align-items: center;
-    
-   
+    overflow: hidden;
 
 }
 

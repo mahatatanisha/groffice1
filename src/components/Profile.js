@@ -121,7 +121,7 @@ function Profile() {
 
           getMetadata(ref(storage, `${userid}/profilePic/${itemRef.name}`))
             .then((metadatas) => {
-              console.log("profile pic", metadatas.fullPath);
+              console.log("profile pic", metadatas);
               getDownloadURL(ref(storage, metadatas.fullPath))
                 .then((url) => {
                   const img = document.getElementById('document');

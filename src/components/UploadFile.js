@@ -20,6 +20,7 @@ export const UploadFile = ({ showModals, setShowModals }) => {
             customMetadata: {
               name: user,  
               userId: userid,
+              mode: "Private",
               
             },
           };

@@ -13,7 +13,7 @@ import fileDownload from 'js-file-download'
 import MenuItem from "@material-ui/core/MenuItem";
 import Menu from "@material-ui/core/Menu";
 import {
-    ref, listAll, getMetadata, getDownloadURL
+    ref, listAll, getMetadata, getDownloadURL, updateMetadata
 
 } from "firebase/storage";
 import FileDownloadIcon from '@mui/icons-material/FileDownload';
@@ -30,26 +30,53 @@ function Documents() {
     const [fileNames, setFileNames] = useState([]);
     const [selectedFile, setSelectedFile] = useState("");
     const [loading, setLoading] = useState(false);
-    const { user, userid , setCallFrom, callFrom} = useUserAuth();
+    const { user, userid, setCallFrom, callFrom } = useUserAuth();
     const [anchorEl, setAnchorEl] = useState(null);
+    const [option, setOption] = useState(null);
+
 
     const MyOptions = [
-        "+ Create a Sub Group"
-      ];
-    
-      const handleClick = (event) => {
+        "Private",
+        "Public"
+    ];
+
+    const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
-    
-        console.log("you clicked!")
-      };
-    
-      const open = Boolean(anchorEl);
-    
-      const handleClose = () => {
-        setShowModals(prev => !prev);
-        setCallFrom("SubGroup");
+
+
+
+    };
+
+    const updateMeta = (option, item) => {
+        const forestRef = ref(storage, `${userid}/${item.Name}`);
+        console.log("inside updateMeta: ", option);
+        // Create file metadata to update
+        const newMetadata = {
+            customMetadata: {
+                mode: option,
+            }
+                
+            
+           
+        };
+
+        // Update metadata properties
+        updateMetadata(forestRef, newMetadata)
+            .then((metadata) => {
+               console.log("after updating metadata",metadata)
+            }).catch((error) => {
+                // Uh-oh, an error occurred!
+            });
+
+
+    }
+
+    const open = Boolean(anchorEl);
+
+    const handleClose = (event) => {
+        console.log(option);
         setAnchorEl(null);
-      };
+    };
 
     const openModals = () => {
         setShowModals(prev => !prev);
@@ -84,13 +111,15 @@ function Documents() {
             .then((res) => {
 
                 res.items.forEach((itemRef) => {
-                    console.log("items", itemRef.metadata);
+
                     getMetadata(ref(storage, `${userid}/${itemRef.name}`))
                         .then((metadatas) => {
+                            
                             setFileNames((oldArray) => [...oldArray, {
                                 Name: itemRef.name,
                                 size: metadatas.size,
                                 type: metadatas.type,
+                                mode: metadatas.customMetadata.mode,
                             }]);
                         })
                         .catch((error) => {
@@ -142,7 +171,7 @@ function Documents() {
                         {fileNames.map((file) => (
 
                             <tr key={file.Name}>
-                                <th scope="row"> <DescriptionIcon /> {file.Name}</th>
+                                <th scope="row"> <DescriptionIcon /> {file.Name} ({file.mode})</th>
                                 <td>{file.size}</td>
                                 <td>{file.type}</td>
                                 <td onClick={handleClick}><VisibilityIcon /></td>
@@ -154,7 +183,12 @@ function Documents() {
                                     {MyOptions.map((option) => (
                                         <MenuItem
                                             key={option}
-                                            onClick={handleClose}>
+                                            onClick={() => {
+                                                console.log("option", option);
+                                                updateMeta(option,file);
+                                                setOption(option);
+                                                handleClose()
+                                            }}>
                                             {option}
                                         </MenuItem>
                                     ))}

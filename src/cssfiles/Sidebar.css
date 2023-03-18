@@ -14,7 +14,7 @@
 .sidebar__header {
     display: flex;
     flex-direction: row;
-    padding: 30px;
+    padding: 10px;
     
 }
 
@@ -140,6 +140,11 @@
 
     box-shadow: none;
     border: none;
+}
+
+.sidebar > .sideparti{
+   display: flex;
+   flex-direction: row;
 }
 
 .sidebar__chats {
